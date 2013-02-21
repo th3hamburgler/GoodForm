@@ -6,10 +6,14 @@ use Illuminate\Support\Facades\Log;
 
 class GoodFormField {
 
+    public $error;
+    public $help;
     public $id;
     public $label;
     public $name;
+    public $options;
     public $type;
+    public $value;
 
    /**
     * constructor
@@ -19,38 +23,103 @@ class GoodFormField {
     * @return   void
     */
     public function __construct($field) {
-        $this->name     = $field->name;
-        $this->id       = $field->name;
-        $this->label    = $field->label;
-        $this->type     = $field->form;
+        foreach ((is_array($field) ? $field : get_object_vars($field)) as $k => $v) {
+            $this->$k = $v;
+        }
+        $this->parseValue();
+    }
+
+    /**
+    * method
+    *
+    * @access   protected
+    * @param    void
+    * @return   void
+    */
+    protected function parseValue() {
+        if ($this->type == 'datetime') {
+            $time = strtotime($this->value);
+            $this->value = [
+                'date'  => date('Y-m-d', $time),
+                'time'  => date('H:i:s', $time),
+            ];
+        }
+    }
+
+   /**
+    * returns the blade template for this field
+    *
+    * @access   protected
+    * @param    void
+    * @return   string
+    */
+    protected function template() {
+        $path = 'good-form::';
+        switch ($this->type) {
+            case 'hidden':
+               $path .= 'hidden';
+               break;
+            case 'datetime':
+               //$path .= 'datetime';
+                return NULL;
+               break;
+            case 'textarea':
+               $path .= 'textarea';
+               break;
+            case 'select':
+               $path .= 'select';
+               break;
+            default:
+               $path .= 'input';
+               break;
+       }
+       return $path;
     }
 
    /**
     * generate the form element
     *
     * @access   public
-    * @param    void
-    * @return   void
+    * @return   string
     */
     public function generate() {
         $data = [
-            'f' => $this,
-            'name'  => $this->name,
-            'label'  => $this->label,
+            'field' => $this,
         ];
-        switch ($this->type) {
-            case 'hidden':
-                return '';
-                break;
-            case 'text':
-            case 'password':
-            case 'email':
-            case 'date':
-                Log::error('Generate '.$this->label);
-                return View::make('good-form::input', $data)->render();
-            default:
-                return View::make('good-form::template', $data)->render();
-                break;
-        }
+        $template = $this->template();
+        if ($template)
+            return View::make($template, $data);
+    }
+
+   /**
+    * returns true if the given value matches this
+    * instances value. 
+    *
+    * If this objects value is an array, we'll check if
+    * the given value exists in it.
+    *
+    * @access   public
+    * @param    mixed
+    * @return   boolean
+    */
+    public function isSelected($value) {
+        if ($this->value == $value)
+            return TRUE;
+        if (is_array($this->value) AND in_array($value, $this->value))
+            return TRUE;
+        return FALSE;
+    }
+
+   /**
+    * Returns the selected html atribute string
+    * if the given value matches this instances value
+    *
+    * @access   public
+    * @param    mixed
+    * @return   string
+    */
+    public function selected($value) {
+        if ($this->isSelected($value))
+            return 'selected';
     }
 }

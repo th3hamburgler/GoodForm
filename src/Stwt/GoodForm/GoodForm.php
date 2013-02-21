@@ -1,21 +1,24 @@
 <?php namespace Stwt\GoodForm;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class GoodForm {
     
     public $fields=[];
 
-    public function generate() {
-        $form = [];
-        foreach ($this->fields as $field)
-            $form[] = $field->generate();
-        return implode("\n", $form);
+    public function generate($form) {
+        $data = [
+            'fields' => $this->fields,
+            'form'   => json_decode(json_encode($form), FALSE),
+        ];
+        return View::make('good-form::form', $data);
     }
 
     public function add($field) {
         $name   = self::element('name', $field);
         Log::error('Add '.$name);
+        Log::error(print_r($field, 1));
         $this->fields[$name]  = new GoodFormField($field);
     }
 
