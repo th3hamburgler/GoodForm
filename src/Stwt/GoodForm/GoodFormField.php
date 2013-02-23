@@ -15,6 +15,11 @@ class GoodFormField {
     public $type;
     public $value;
 
+    // numbers
+    public $min;
+    public $max;
+    public $step;
+
    /**
     * constructor
     *
@@ -26,6 +31,7 @@ class GoodFormField {
         foreach ((is_array($field) ? $field : get_object_vars($field)) as $k => $v) {
             $this->$k = $v;
         }
+        if (!$this->id) $this->id = $this->name;
         $this->parseValue();
     }
 
@@ -69,7 +75,13 @@ class GoodFormField {
             case 'select':
                $path .= 'select';
                break;
+            case 'float':
+            case 'decimal':
+            case 'number':
+               $path .= 'number';
+               break;
             default:
+               // Log::error($this->type);
                $path .= 'input';
                break;
        }

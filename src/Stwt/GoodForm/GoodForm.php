@@ -17,8 +17,8 @@ class GoodForm {
 
     public function add($field) {
         $name   = self::element('name', $field);
-        Log::error('Add '.$name);
-        Log::error(print_r($field, 1));
+        //Log::error('Add '.$name);
+        //Log::error(print_r($field, 1));
         $this->fields[$name]  = new GoodFormField($field);
     }
 
