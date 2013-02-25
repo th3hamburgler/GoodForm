@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="control-group {{ $field->containerClass() }}">
     @section('label')
          <label class="control-label" for="{{$field->id}}">{{$field->label}}</label>
     @show

@@ -1,4 +1,4 @@
-<div class="control-group">
+<div class="control-group {{ $field->containerClass() }}">
     <label class="control-label" for="{{$field->id}}">{{$field->label}}</label>
     <div class="controls">
         <input 
@@ -10,7 +10,7 @@
             type="{{ $field->type }}" 
             value="{{ $field->value }}"
         >
-        <span class="help-inline">{{$field->help}}</span>
-        <span class="error-inline">{{$field->error}}</span>
+        {{{ $field->help() }}}
+        {{{ $field->errors() }}}
     </div>
 </div>

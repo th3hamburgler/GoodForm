@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\Log;
 
 class GoodFormField {
 
-    public $error;
-    public $help;
+    private $errors = [];
+    private $help   = [];
+
     public $id;
     public $label;
     public $name;
-    public $options;
+    public $options = [];
     public $type;
     public $value;
 
@@ -66,7 +67,7 @@ class GoodFormField {
                $path .= 'hidden';
                break;
             case 'datetime':
-               //$path .= 'datetime';
+               $path .= 'datetime';
                 return NULL;
                break;
             case 'textarea':
@@ -80,6 +81,13 @@ class GoodFormField {
             case 'number':
                $path .= 'number';
                break;
+            case 'checkbox_bool':
+               $path .= 'checkbox-bool';
+               break; 
+            case 'radio':
+            case 'checkbox-group':
+               $path .= 'check';
+               break; 
             default:
                // Log::error($this->type);
                $path .= 'input';
@@ -104,6 +112,90 @@ class GoodFormField {
     }
 
    /**
+    * Adds help items(s) to the field
+    * $help can be a string or array
+    *
+    * @access   public
+    * @param    mixed   $help
+    * @return   void
+    */
+    public function addHelp($help) {
+        if (is_array($help)) {
+            $this->help[] = array_merge($this->help, $help);
+        } else {
+            $this->help[] = $help;
+        }
+    }
+
+   /**
+    * Adds error(s) to the field
+    * $error can be a string or array
+    *
+    * @access   public
+    * @param    mixed   $error
+    * @return   void
+    */
+    public function addError($error) {
+        if (is_array($error)) {
+            $this->errors = array_merge($this->errors, $error);
+        } else {
+            $this->errors[] = $error;
+        }
+    }
+
+   /**
+    * Returns all the field help items as a string
+    *
+    * @access   public
+    * @param    string  $format
+    * @return   string  
+    */
+    public function help($format='<span class="help-inline">:message</span>') {
+        $string = '';
+        foreach ($this->help as $h)
+            $string .= str_replace(':message', $h, $format);
+        return $string;
+    }
+
+   /**
+    * Returns all the field errors as a string
+    *
+    * @access   public
+    * @param    string  $format
+    * @return   string  
+    */
+    public function errors($format='<span class="help-inline">:message</span>') {
+        $string = '';
+        foreach ($this->errors as $e)
+            $string .= str_replace(':message', $e, $format);
+        return $string;
+    }
+
+   /**
+    * Returns any classes defined for the field container
+    * including any error classes
+    *
+    * @access   public
+    * @param    void
+    * @return   void
+    */
+    public function containerClass() {
+        // check for error in field
+        if ($this->hasError())
+            return 'error';
+    }
+
+   /**
+    * Returns true if the field has any errors
+    *
+    * @access   public
+    * @return   boolean
+    */
+    public function hasError() {
+        return ($this->errors ? TRUE : FALSE);
+    }
+
+   /**
     * returns true if the given value matches this
     * instances value. 
     *
@@ -115,11 +207,25 @@ class GoodFormField {
     * @return   boolean
     */
     public function isSelected($value) {
+        Log::error('isSelected '.$this->value.' == '.$value);
         if ($this->value == $value)
             return TRUE;
         if (is_array($this->value) AND in_array($value, $this->value))
             return TRUE;
         return FALSE;
+    }
+
+   /**
+    * Returns the checked html atribute string
+    * if the given value matches this instances value
+    *
+    * @access   public
+    * @param    mixed
+    * @return   string
+    */
+    public function checked($value) {
+        if ($this->isSelected($value))
+            return 'checked';
     }
 
    /**

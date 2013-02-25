@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\View;
 
 class GoodForm {
     
-    public $fields=[];
+    private $fields=[];
 
     public function generate($form) {
         $data = [
@@ -17,9 +17,39 @@ class GoodForm {
 
     public function add($field) {
         $name   = self::element('name', $field);
-        //Log::error('Add '.$name);
-        //Log::error(print_r($field, 1));
         $this->fields[$name]  = new GoodFormField($field);
+    }
+
+   /**
+    * Updates any fields with validation errors
+    *
+    * Expects $errors to be an associative array where the key
+    * matches the form field name. Errors stored in array for 
+    * each field so we can handle multiple erors per field.
+    *
+    * @access   public
+    * @param    array   $errors
+    * @return   void
+    */
+    public function addErrors($errors) {
+        foreach ($errors as $name => $error) {
+            if ($this->has($name)) {
+                // note - error may be array or string
+                $this->fields[$name]->addError($error);
+            }
+        }
+    }
+
+   /**
+    * Checks if a field of $name exists in this
+    * instance of the form.
+    *
+    * @access   public
+    * @param    string  $name
+    * @return   boolean
+    */
+    public function has($name) {
+        return (isset($this->fields[$name]) ?: FALSE);
     }
 
    /*

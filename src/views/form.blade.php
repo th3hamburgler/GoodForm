@@ -1,4 +1,4 @@
-<form action="{{$form->action}}" class="{{$form->class}}" method="{{$form->method}}">
+<form action="{{$form->action}}" class="{{$form->class}}" novalidate method="{{$form->method}}">
 @foreach($fields as $field)
       {{{$field->generate()}}}
 @endforeach
