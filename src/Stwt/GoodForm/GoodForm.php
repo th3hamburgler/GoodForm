@@ -5,20 +5,57 @@ use Illuminate\Support\Facades\View;
 
 class GoodForm {
     
-    private $fields=[];
+    private $fields = [];
+    private $attr   = [];
 
-    public function generate($form) {
+    public function generate($attr=null)
+    {
+        if ($attr)
+        {
+            $this->attr($attr);
+        }
+        // convert array to object
+        $form = json_decode(json_encode($this->attr), FALSE);
+
         $data = [
             'fields' => $this->fields,
-            'form'   => json_decode(json_encode($form), FALSE),
+            'form'   => $form,
         ];
         return View::make('good-form::form', $data);
     }
 
-    public function add($field) {
+    public function add($field)
+    {
         $name   = self::element('name', $field);
         $this->fields[$name]  = new GoodFormField($field);
     }
+
+   /*
+    * Add attributes to the form
+    *
+    * Accepts $key & $value as parameters or pass
+    * an associative array as the first parameter
+    * to add multiple attributes at once
+    *
+    * Examples
+    * --------
+    * $form->attr('method', 'POST');
+    * $form->attr(['method' => 'POST', 'method' => '/uri/to']);
+    *
+    * @param mixed  $key
+    * @param string $value
+    */
+    public function attr($key, $value=null)
+    {
+        if ( is_array($key) )
+        {
+            $this->attr = array_merge($this->attr, $key);
+        } 
+        else {
+            $this->attr[$key] = $value;
+        }
+    }
+
 
    /**
     * Updates any fields with validation errors
