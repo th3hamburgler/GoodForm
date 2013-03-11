@@ -32,8 +32,13 @@ class GoodFormField
     public function __construct($field)
     {
         $properties = (is_array($field) ? $field : get_object_vars($field));
+        $forceArray = ['help', 'error'];
         foreach ($properties as $k => $v) {
-            $this->$k = $v;
+            if (in_array($k, $forceArray) && !is_array($v)) {
+                $this->$k = [$v];
+            } else {
+                $this->$k = $v;
+            }
         }
         if (!$this->id) {
             $this->id = $this->name;
