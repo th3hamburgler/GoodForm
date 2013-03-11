@@ -1,1 +1,1 @@
-<input id="{{$field->id}}" name="{{$field->name}}" type="hidden" value="{{$field->value}}" />
+<input {{ $field->attributes() }} />

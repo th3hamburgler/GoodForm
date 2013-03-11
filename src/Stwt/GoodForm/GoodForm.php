@@ -126,4 +126,21 @@ class GoodForm
         }
         return $default;
     }
+
+    /*
+     * Returns a key => value associative array 
+     * as a key="value" string
+     *
+     * @param    array $array
+     *
+     * @return   string
+     */
+    public static function array_to_attributes($array)
+    {
+        $attr = [];
+        foreach ($array as $k => $v) {
+            $attr[] = $k.'="'.$v.'"';
+        }
+        return implode(' ', $attr);
+    }
 }

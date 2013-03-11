@@ -157,6 +157,39 @@ class GoodFormField
         }
     }
 
+    /*
+     * Returns the fields properties as a string
+     * pass in keys of any attributes you dont want
+     * returned in the string
+     *
+     * @param array $not
+     *
+     * @return string
+     */
+    public function attributes($not = [])
+    {
+        $attributes = [
+            'class',
+            'cols',
+            'id',
+            'max',
+            'min',
+            'step',
+            'name',
+            'placeholder',
+            'rows',
+            'type',
+            'value',
+        ];
+        $array = [];
+        foreach ($attributes as $k) {
+            if (isset($this->$k) && !in_array($k, $not)) {
+                $array[$k] = $this->$k;
+            }
+        }
+        return GoodForm::array_to_attributes($array);
+    }
+
     /**
      * Returns all the field help items as a string
      *
