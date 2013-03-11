@@ -12,7 +12,7 @@
             > {{ $label }}
         </label>
     @endforeach
-        {{{ $field->help() }}}
-        {{{ $field->errors() }}}
+        {{ $field->help() }}
+        {{ $field->errors() }}
     </div>
 </div>

@@ -9,7 +9,7 @@
             type="checkbox" 
             value="1"
         />
-        {{{ $field->help() }}}
-        {{{ $field->errors() }}}
+        {{ $field->help() }}
+        {{ $field->errors() }}
     </div>
 </div>

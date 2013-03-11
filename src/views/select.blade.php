@@ -6,7 +6,7 @@
             <option {{ $field->selected($value) }} value="{{ $value }}">{{ $label }}</option>
         @endforeach
         </select>
-        {{{ $field->help() }}}
-        {{{ $field->errors() }}}
+        {{ $field->help() }}
+        {{ $field->errors() }}
     </div>
 </div>

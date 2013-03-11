@@ -10,7 +10,7 @@
             type="{{ $field->type }}" 
             value="{{ $field->value }}"
         >
-        {{{ $field->help() }}}
-        {{{ $field->errors() }}}
+        {{ $field->help() }}
+        {{ $field->errors() }}
     </div>
 </div>
