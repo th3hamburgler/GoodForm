@@ -75,6 +75,9 @@ class GoodFormField
             case 'hidden':
                 $path .= 'hidden';
                 break;
+            case 'color':
+                $path .= 'color';
+                break;
             case 'datetime':
                 $path .= 'datetime';
                 return null;
