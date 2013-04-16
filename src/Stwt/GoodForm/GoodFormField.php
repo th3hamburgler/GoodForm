@@ -241,6 +241,11 @@ class GoodFormField
         } elseif ($this->model) {
             $object = new $this->model;
             $object::all();
+            $this->options = [];
+            if (!$this->null) {
+                // if field allows null add a null option
+                $this->options['-- select --'] = null;
+            }
             foreach ($object::all() as $o) {
                 $this->options[(string)$o] = $o->id;
             }
