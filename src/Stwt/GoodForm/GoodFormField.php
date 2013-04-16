@@ -223,6 +223,34 @@ class GoodFormField
     }
 
     /**
+     * Returns an array of options for the field
+     *
+     * [label] => [value]
+     *
+     * First checked for cached options in the $options property
+     * Will then look if this field is tied to a model and load options
+     * from the model instead. This array is cached in the model so the
+     * query will not be ran each time
+     *
+     * @return array
+     */
+    public function options()
+    {
+        if ($this->options) {
+            return $this->options;
+        } elseif ($this->model) {
+            $object = new $this->model;
+            $object::all();
+            foreach ($object::all() as $o) {
+                $this->options[(string)$o] = $o->id;
+            }
+            return $this->options;
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Returns any classes defined for the field container
      * including any error classes
      *
