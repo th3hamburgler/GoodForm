@@ -294,7 +294,6 @@ class GoodFormField
      */
     public function isSelected($value)
     {
-        Log::error('isSelected '.$this->value.' == '.$value);
         if ($this->value == $value) {
             return true;
         }
