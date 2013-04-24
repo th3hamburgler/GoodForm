@@ -187,7 +187,7 @@ class GoodFormField
                 $array[$k] = $this->$k;
             }
         }
-        return GoodForm::array_to_attributes($array);
+        return GoodForm::arrayToAttributes($array);
     }
 
     /**

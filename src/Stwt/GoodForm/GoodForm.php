@@ -42,7 +42,6 @@ class GoodForm
         }
 
         return implode(' ', $array);
-        //action="{{$form->action}}" class="{{$form->class}}" method="{{$form->method}}"
     }
 
     /*
@@ -135,7 +134,7 @@ class GoodForm
      *
      * @return   string
      */
-    public static function array_to_attributes($array)
+    public static function arrayToAttributes($array)
     {
         $attr = [];
         foreach ($array as $k => $v) {
