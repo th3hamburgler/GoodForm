@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\View;
 
 class GoodForm
 {
-    private $fields = [];
-    private $attr   = [];
+    private $fields  = [];
+    private $actions = [];
+    private $attr    = [];
 
     public function generate($attr = null)
     {
@@ -14,12 +15,12 @@ class GoodForm
             $this->attr($attr);
         }
         // convert array to object
-        $form = json_decode(json_encode($this->attr), false);
-
+        $form    = json_decode(json_encode($this->attr), false);
         $data = [
-            'fields' => $this->fields,
-            'form'   => $form,
-            'formAttributes'    => $this->attributes(),
+            'actions'        => $this->actions,
+            'fields'         => $this->fields,
+            'form'           => $form,
+            'formAttributes' => $this->attributes(),
         ];
         return View::make('good-form::form', $data);
     }
@@ -31,6 +32,15 @@ class GoodForm
             $this->attr('enctype', 'multipart/form-data');
         }
         $this->fields[$name]  = new GoodFormField($field);
+    }
+
+    public function addAction($field)
+    {
+        $name = self::element('name', $field);
+        if (self::element('type', $field)) {
+            $this->attr('enctype', 'multipart/form-data');
+        }
+        $this->actions[$name]  = new GoodFormField($field);
     }
 
     public function attributes()

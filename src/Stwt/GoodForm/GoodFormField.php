@@ -14,6 +14,7 @@ class GoodFormField
     public $name;
     public $options = [];
     public $type;
+    public $form;
     public $value;
 
     // numbers
@@ -71,41 +72,34 @@ class GoodFormField
     protected function template()
     {
         $path = 'good-form::';
-        switch ($this->type) {
-            case 'hidden':
-                $path .= 'hidden';
-                break;
-            case 'color':
-                $path .= 'color';
-                break;
-            case 'datetime':
-                $path .= 'datetime';
-                return null;
-                break;
-            case 'textarea':
-                $path .= 'textarea';
-                break;
-            case 'select':
-                $path .= 'select';
-                break;
-            case 'float':
-            case 'decimal':
-            case 'number':
-                $path .= 'number';
-                break;
-            case 'checkbox_bool':
-                $path .= 'checkbox-bool';
-                break;
-            case 'radio':
-            case 'checkbox-group':
-                $path .= 'check';
-                break;
-            default:
-                // Log::error($this->type);
-                $path .= 'input';
-                break;
+        if ($this->type == 'hidden') {
+            return $path.'hidden';
         }
-        return $path;
+        if ($this->type == 'color') {
+            return $path.'color';
+        }
+        if ($this->type == 'datetime') {
+            return $path.'datetime';
+        }
+        if ($this->form == 'button') {
+            return $path.'button';
+        }
+        if ($this->form == 'textarea') {
+            return $path.'textarea';
+        }
+        if ($this->form == 'select') {
+            return $path.'select';
+        }
+        if (in_array($this->type, ['form', 'decimal', 'number'])) {
+            return $path.'number';
+        }
+        if ($this->type == 'checkbox_bool') {
+            return $path.'checkbox-bool';
+        }
+        if ($this->type == 'radio' OR $this->type == 'checkbox-group') {
+            return $path.'check';
+        }
+        return $path.'input';
     }
 
     /**
