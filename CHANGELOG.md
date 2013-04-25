@@ -1,5 +1,10 @@
 # Change log
 
+## 26th April 2013
+
+* Changed the action types in resource controllers to 'collection', 'resource', 'related' & 'single'
+* Added localization support and moved much of the language string into lang/mothership.php
+
 ## 25th April 2013
 
 * Added the $form property. This defines the form element tag
