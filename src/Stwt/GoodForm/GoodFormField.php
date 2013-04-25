@@ -115,6 +115,10 @@ class GoodFormField
      */
     public function generate()
     {
+        // if password remove value
+        if ($this->type == 'password') {
+            $this->value = '';
+        }
         $data = [
             'field' => $this,
         ];
