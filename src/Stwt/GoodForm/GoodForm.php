@@ -28,7 +28,7 @@ class GoodForm
     public function add($field)
     {
         $name   = self::element('name', $field);
-        if (self::element('type', $field)) {
+        if (self::element('type', $field) == 'file') {
             $this->attr('enctype', 'multipart/form-data');
         }
         $this->fields[$name]  = new GoodFormField($field);

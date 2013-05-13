@@ -16,6 +16,7 @@ class GoodFormField
     public $type;
     public $form;
     public $value;
+    public $placeholder;
 
     // numbers
     public $min;

@@ -1,5 +1,9 @@
 # Change log
 
+## 13th May 2013
+
+* Fixed bug where any input field with a type attribute would set the form to a multitype form
+
 ## 26th April 2013
 
 * Changed the action types in resource controllers to 'collection', 'resource', 'related' & 'single'
