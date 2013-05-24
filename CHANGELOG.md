@@ -1,5 +1,9 @@
 # Change log
 
+## 24th May 2013
+
+* Updated the datetime input field layout
+
 ## 13th May 2013
 
 * Fixed bug where any input field with a type attribute would set the form to a multitype form

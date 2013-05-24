@@ -56,13 +56,13 @@ class GoodFormField
      */
     protected function parseValue()
     {
-        if ($this->type == 'datetime') {
+        /*if ($this->type == 'datetime') {
             $time = strtotime($this->value);
             $this->value = [
                 'date'  => date('Y-m-d', $time),
                 'time'  => date('H:i:s', $time),
             ];
-        }
+        }*/
     }
 
     /**
