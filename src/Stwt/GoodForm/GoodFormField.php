@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
+use Input;
 
 class GoodFormField
 {
@@ -45,24 +46,21 @@ class GoodFormField
         if (!$this->id) {
             $this->id = $this->name;
         }
-        $this->parseValue();
     }
 
     /**
-     * Parse the field value if any preperation 
-     * needs to be done
+     * Returns the value attribute.
+     * Checks if there is a value from the previous request
+     * and returns that by default
      *
-     * @return   void
+     * @return mixed
      */
-    protected function parseValue()
-    {
-        /*if ($this->type == 'datetime') {
-            $time = strtotime($this->value);
-            $this->value = [
-                'date'  => date('Y-m-d', $time),
-                'time'  => date('H:i:s', $time),
-            ];
-        }*/
+    public function value() {
+        if (Input::old($this->name)) {
+            return Input::old($this->name);
+        } else {
+            return $this->value;
+        }
     }
 
     /**
@@ -178,13 +176,16 @@ class GoodFormField
             'placeholder',
             'rows',
             'type',
-            'value',
         ];
         $array = [];
         foreach ($attributes as $k) {
             if (isset($this->$k) && !in_array($k, $not)) {
                 $array[$k] = $this->$k;
             }
+        }
+        
+        if (!in_array('value', $not)) {
+            $array['value'] = $this->value();
         }
         return GoodForm::arrayToAttributes($array);
     }
@@ -294,10 +295,10 @@ class GoodFormField
      */
     public function isSelected($value)
     {
-        if ($this->value == $value) {
+        if ($this->value() == $value) {
             return true;
         }
-        if (is_array($this->value) AND in_array($value, $this->value)) {
+        if (is_array($this->value()) AND in_array($value, $this->value())) {
             return true;
         }
         return false;

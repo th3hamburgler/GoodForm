@@ -3,6 +3,7 @@
 ## 31st May 2013
 
 * Bug with model options. Null fields did not have a null option
+* Use the field value found in Input::old() if it's present
 
 ## 24th May 2013
 
