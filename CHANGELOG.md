@@ -1,5 +1,9 @@
 # Change log
 
+## 31st May 2013
+
+* Bug with model options. Null fields did not have a null option
+
 ## 24th May 2013
 
 * Updated the datetime input field layout

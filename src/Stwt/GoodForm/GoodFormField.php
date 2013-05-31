@@ -241,6 +241,7 @@ class GoodFormField
             $object = new $this->model;
             $object::all();
             $this->options = [];
+
             if ($this->null) {
                 // if field allows null add a null option
                 $this->options['----'] = null;
