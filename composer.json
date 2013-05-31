@@ -1,0 +1,23 @@
+{
+    "name": "stwt/good-form",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jim Wardlaw",
+            "email": "jim.wardlaw@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Stwt\\GoodForm": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,1 @@
+<button {{ $field->attributes(['value']) }}>{{ $field->value }}</button>
