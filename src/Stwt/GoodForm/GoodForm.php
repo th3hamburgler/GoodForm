@@ -90,6 +90,7 @@ class GoodForm
         } else {
             $this->attr[$key] = $value;
         }
+        return $this;
     }
 
 
