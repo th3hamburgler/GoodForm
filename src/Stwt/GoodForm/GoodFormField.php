@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
 use Input;
+use URL;
 
 class GoodFormField
 {
@@ -55,7 +56,8 @@ class GoodFormField
      *
      * @return mixed
      */
-    public function value() {
+    public function value()
+    {
         if (Input::old($this->name)) {
             return Input::old($this->name);
         } else {
@@ -71,6 +73,9 @@ class GoodFormField
     protected function template()
     {
         $path = 'good-form::';
+        if ($this->form == 'image') {
+            return $path.'image';
+        }
         if ($this->type == 'hidden') {
             return $path.'hidden';
         }
@@ -95,7 +100,7 @@ class GoodFormField
         if ($this->type == 'checkbox_bool') {
             return $path.'checkbox-bool';
         }
-        if ($this->type == 'radio' OR $this->type == 'checkbox-group') {
+        if ($this->type == 'radio' or $this->type == 'checkbox-group') {
             return $path.'check';
         }
         return $path.'input';
@@ -248,7 +253,14 @@ class GoodFormField
                 $this->options['----'] = null;
             }
             foreach ($object::all() as $o) {
-                $this->options[(string)$o] = $o->id;
+                if ($this->form == 'image') {
+                    $this->options[(string)$o] = [
+                        'value' => $o->id,
+                        'data-img-src' => $o->thumbnailSrc(),
+                    ];
+                } else {
+                    $this->options[(string)$o] = $o->id;
+                }
             }
             return $this->options;
         } else {
@@ -298,7 +310,7 @@ class GoodFormField
         if ($this->value() == $value) {
             return true;
         }
-        if (is_array($this->value()) AND in_array($value, $this->value())) {
+        if (is_array($this->value()) and in_array($value, $this->value())) {
             return true;
         }
         return false;
@@ -331,6 +343,32 @@ class GoodFormField
     {
         if ($this->isSelected($value)) {
             return 'selected';
+        }
+    }
+
+    /**
+     * Returns an instance of this fields model.
+     * If we have a value, we will instanciate that instance else
+     * an empty instance is returned
+     * 
+     * @return object
+     */
+    public function instance()
+    {
+        $class = $this->model;
+        if ($this->value) {
+            $instance = $class::find($this->value);
+            if ($instance) {
+                return $instance;
+            }
+        }
+        return new $class;
+    }
+
+    public function uploadURL()
+    {
+        if ($this->upload) {
+            return URL::to('admin/'.$this->upload);
         }
     }
 }
