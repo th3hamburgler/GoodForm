@@ -39,6 +39,7 @@ class GoodForm
         if (is_array($name)) {
             $attributes = $name;
         } else {
+            $attributes['type'] = 'hidden';
             $attributes['name'] = $name;
             $attributes['value'] = $value;
         }
