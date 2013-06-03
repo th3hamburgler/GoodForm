@@ -34,6 +34,18 @@ class GoodForm
         $this->fields[$name]  = new GoodFormField($field);
     }
 
+    public function hidden($name, $value = null, $attributes = [])
+    {
+        if (is_array($name)) {
+            $attributes = $name;
+        } else {
+            $attributes['name'] = $name;
+            $attributes['value'] = $value;
+        }
+        $this->add($attributes);
+        return $this;
+    }
+
     public function addAction($field)
     {
         $name = self::element('name', $field);
