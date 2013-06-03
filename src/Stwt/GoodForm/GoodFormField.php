@@ -3,8 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
-use Input;
-use URL;
 
 class GoodFormField
 {
@@ -47,22 +45,24 @@ class GoodFormField
         if (!$this->id) {
             $this->id = $this->name;
         }
+        $this->parseValue();
     }
 
     /**
-     * Returns the value attribute.
-     * Checks if there is a value from the previous request
-     * and returns that by default
+     * Parse the field value if any preperation 
+     * needs to be done
      *
-     * @return mixed
+     * @return   void
      */
-    public function value()
+    protected function parseValue()
     {
-        if (Input::old($this->name)) {
-            return Input::old($this->name);
-        } else {
-            return $this->value;
-        }
+        /*if ($this->type == 'datetime') {
+            $time = strtotime($this->value);
+            $this->value = [
+                'date'  => date('Y-m-d', $time),
+                'time'  => date('H:i:s', $time),
+            ];
+        }*/
     }
 
     /**
@@ -73,9 +73,6 @@ class GoodFormField
     protected function template()
     {
         $path = 'good-form::';
-        if ($this->form == 'image') {
-            return $path.'image';
-        }
         if ($this->type == 'hidden') {
             return $path.'hidden';
         }
@@ -84,6 +81,12 @@ class GoodFormField
         }
         if ($this->type == 'datetime') {
             return $path.'datetime';
+        }
+        if ($this->type == 'date') {
+            return $path.'date';
+        }
+        if ($this->type == 'time') {
+            return $path.'time';
         }
         if ($this->form == 'button') {
             return $path.'button';
@@ -181,16 +184,13 @@ class GoodFormField
             'placeholder',
             'rows',
             'type',
+            'value',
         ];
         $array = [];
         foreach ($attributes as $k) {
             if (isset($this->$k) && !in_array($k, $not)) {
                 $array[$k] = $this->$k;
             }
-        }
-        
-        if (!in_array('value', $not)) {
-            $array['value'] = $this->value();
         }
         return GoodForm::arrayToAttributes($array);
     }
@@ -247,20 +247,12 @@ class GoodFormField
             $object = new $this->model;
             $object::all();
             $this->options = [];
-
-            if ($this->null) {
+            if (!$this->null) {
                 // if field allows null add a null option
-                $this->options['----'] = null;
+                $this->options['-- select --'] = null;
             }
             foreach ($object::all() as $o) {
-                if ($this->form == 'image') {
-                    $this->options[(string)$o] = [
-                        'value' => $o->id,
-                        'data-img-src' => $o->thumbnailSrc(),
-                    ];
-                } else {
-                    $this->options[(string)$o] = $o->id;
-                }
+                $this->options[(string)$o] = $o->id;
             }
             return $this->options;
         } else {
@@ -307,10 +299,10 @@ class GoodFormField
      */
     public function isSelected($value)
     {
-        if ($this->value() == $value) {
+        if ($this->value == $value) {
             return true;
         }
-        if (is_array($this->value()) and in_array($value, $this->value())) {
+        if (is_array($this->value) AND in_array($value, $this->value)) {
             return true;
         }
         return false;
@@ -343,32 +335,6 @@ class GoodFormField
     {
         if ($this->isSelected($value)) {
             return 'selected';
-        }
-    }
-
-    /**
-     * Returns an instance of this fields model.
-     * If we have a value, we will instanciate that instance else
-     * an empty instance is returned
-     * 
-     * @return object
-     */
-    public function instance()
-    {
-        $class = $this->model;
-        if ($this->value) {
-            $instance = $class::find($this->value);
-            if ($instance) {
-                return $instance;
-            }
-        }
-        return new $class;
-    }
-
-    public function uploadURL()
-    {
-        if ($this->upload) {
-            return URL::to('admin/'.$this->upload);
         }
     }
 }
