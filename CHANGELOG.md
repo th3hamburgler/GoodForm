@@ -1,5 +1,9 @@
 # Change log
 
+## 5th June 2013
+
+* Added shorthand methods for hidden, text, date, datetime & time
+
 ## 31st May 2013
 
 * Bug with model options. Null fields did not have a null option

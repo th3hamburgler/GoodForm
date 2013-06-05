@@ -28,25 +28,104 @@ class GoodForm
         return View::make('good-form::form', $data);
     }
 
-    public function add($field)
+
+    /***************************/
+
+
+    /**
+     * Add a hidden input to the form
+     * 
+     * @param  string $name       The field name
+     * @param  stirng $value      The field value
+     * @param  array  $attributes Any additional attributes
+     * 
+     * @return GoodForm           Returns form instance (chainable)
+     */
+    public function hidden($name, $value, $label = null, $attributes = [])
     {
-        $name   = self::element('name', $field);
-        if (self::element('type', $field) == 'file') {
+        return $this->add('hidden', $name, $value, $label, $attributes);
+    }
+
+    /**
+     * Add a text input to the form
+     * 
+     * @param  string $name       The field name
+     * @param  stirng $value      The field value
+     * @param  array  $attributes Any additional attributes
+     * 
+     * @return GoodForm           Returns form instance (chainable)
+     */
+    public function text($name, $value, $label = null, $attributes = [])
+    {
+        return $this->add('text', $name, $value, $label, $attributes);
+    }
+
+    /**
+     * Add a datetime input to the form
+     * 
+     * @param  string $name       The field name
+     * @param  stirng $value      The field value
+     * @param  array  $attributes Any additional attributes
+     * 
+     * @return GoodForm           Returns form instance (chainable)
+     */
+    public function datetime($name, $value, $label = null, $attributes = [])
+    {
+        return $this->add('datetime', $name, $value, $label, $attributes);
+    }
+
+    /**
+     * Add a date input to the form
+     * 
+     * @param  string $name       The field name
+     * @param  stirng $value      The field value
+     * @param  array  $attributes Any additional attributes
+     * 
+     * @return GoodForm           Returns form instance (chainable)
+     */
+    public function date($name, $value, $label = null, $attributes = [])
+    {
+        return $this->add('date', $name, $value, $label, $attributes);
+    }
+
+    /**
+     * Add a time input to the form
+     * 
+     * @param  string $name       The field name
+     * @param  stirng $value      The field value
+     * @param  array  $attributes Any additional attributes
+     * 
+     * @return GoodForm           Returns form instance (chainable)
+     */
+    public function time($name, $value, $label = null, $attributes = [])
+    {
+        return $this->add('time', $name, $value, $label, $attributes);
+    }
+
+    public function add($type, $name = null, $value = null, $label = null, $attributes = [])
+    {
+        if (is_array($type)) {
+            $attributes = $type;
+        } else {
+            $attributes['label'] = $label;
+            $attributes['name']  = $name;
+            $attributes['type']  = $type;
+            $attributes['value'] = $value;
+        }
+
+        $name   = self::element('name', $attributes);
+
+        if (self::element('type', $attributes) == 'file') {
             $this->attr('enctype', 'multipart/form-data');
         }
-        $this->fields[$name]  = new GoodFormField($field);
+        $this->fields[$name]  = new GoodFormField($attributes);
+
+        return $this;
     }
 
-    public function hidden($name, $value)
-    {
-        $field = [];
-        
-        $field['name']  = $name;
-        $field['type']  = 'hidden';
-        $field['value'] = $value;
 
-        return $this->add($field);
-    }
+    /***************************/
+
 
     public function addAction($field)
     {
