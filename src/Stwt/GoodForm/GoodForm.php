@@ -7,7 +7,10 @@ class GoodForm
 {
     private $fields  = [];
     private $actions = [];
-    private $attr    = [];
+    private $attr    = [
+        'class'  => 'form-horizontal',
+        'method' => 'POST',
+    ];
 
     public function generate($attr = null)
     {
@@ -34,17 +37,15 @@ class GoodForm
         $this->fields[$name]  = new GoodFormField($field);
     }
 
-    public function hidden($name, $value = null, $attributes = [])
+    public function hidden($name, $value)
     {
-        if (is_array($name)) {
-            $attributes = $name;
-        } else {
-            $attributes['type'] = 'hidden';
-            $attributes['name'] = $name;
-            $attributes['value'] = $value;
-        }
-        $this->add($attributes);
-        return $this;
+        $field = [];
+        
+        $field['name']  = $name;
+        $field['type']  = 'hidden';
+        $field['value'] = $value;
+
+        return $this->add($field);
     }
 
     public function addAction($field)
