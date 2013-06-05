@@ -104,7 +104,7 @@ class GoodForm
 
     public function add($type, $name = null, $value = null, $label = null, $attributes = [])
     {
-        if (is_array($type)) {
+        if (is_array($type) or is_object($type)) {
             $attributes = $type;
         } else {
             $attributes['label'] = $label;
