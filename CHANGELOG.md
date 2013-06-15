@@ -1,5 +1,9 @@
 # Change log
 
+## 15th June 2013
+
+* The _Option_ property attribute can now be a _Closure_
+
 ## 5th June 2013
 
 * Added shorthand methods for hidden, text, date, datetime & time

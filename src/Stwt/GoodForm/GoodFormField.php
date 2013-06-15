@@ -248,7 +248,7 @@ class GoodFormField
     public function options()
     {
         if ($this->options) {
-            return $this->options;
+            return value($this->options);
         } elseif ($this->model) {
             $object = new $this->model;
             $object::all();
