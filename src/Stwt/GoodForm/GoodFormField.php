@@ -119,6 +119,9 @@ class GoodFormField
      */
     public function generate()
     {
+        if ($this->form == 'macro') {
+            return value($this->value);
+        }
         // if password remove value
         if ($this->type == 'password') {
             $this->value = '';

@@ -1,5 +1,9 @@
 # Change log
 
+## 17th June 2013
+
+* Added the macro option which can return contents as a static value or closure
+
 ## 15th June 2013
 
 * The _Option_ property attribute can now be a _Closure_
