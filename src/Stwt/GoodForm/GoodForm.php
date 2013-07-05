@@ -8,7 +8,7 @@ class GoodForm
     private $fields  = [];
     private $actions = [];
     private $attr    = [
-        'class'  => 'form-horizontal',
+        //'class'  => 'form-horizontal',
         'method' => 'POST',
     ];
 
