@@ -1,0 +1,1 @@
+@extends('good-form::bootstrap3.input')

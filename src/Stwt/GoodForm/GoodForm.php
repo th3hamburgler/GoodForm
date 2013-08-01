@@ -12,6 +12,8 @@ class GoodForm
         'method' => 'POST',
     ];
 
+    public static $theme = 'bootstrap3';
+
     public function generate($attr = null)
     {
         if ($attr) {
@@ -19,13 +21,21 @@ class GoodForm
         }
         // convert array to object
         $form    = json_decode(json_encode($this->attr), false);
+
+        $fields = [];
+        foreach ($this->fields as $k => $v) {
+            $fields[$k] = $v->generate();
+        }
+
         $data = [
             'actions'        => $this->actions,
-            'fields'         => $this->fields,
+            'fields'         => $fields,
             'form'           => $form,
             'formAttributes' => $this->attributes(),
         ];
-        return View::make('good-form::form', $data);
+
+        $theme = self::$theme;
+        return View::make("good-form::{$theme}.form", $data)->render();
     }
 
 

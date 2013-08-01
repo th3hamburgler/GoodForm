@@ -72,7 +72,9 @@ class GoodFormField
      */
     protected function template()
     {
-        $path = 'good-form::';
+        $theme = GoodForm::$theme;
+        $path = "good-form::$theme.";
+
         if ($this->form == 'image') {
             return $path.'image';
         }
@@ -129,9 +131,11 @@ class GoodFormField
         $data = [
             'field' => $this,
         ];
+
+        Log::error("load {$this->name} view");
         $template = $this->template();
         if ($template) {
-            return View::make($template, $data);
+            return View::make($template, $data)->render();
         }
     }
 
