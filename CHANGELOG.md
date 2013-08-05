@@ -1,5 +1,9 @@
 # Change log
 
+## 3rd May 2013
+
+* Added image selector template
+
 ## 31st May 2013
 
 * Bug with model options. Null fields did not have a null option
