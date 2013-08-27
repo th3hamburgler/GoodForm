@@ -2,7 +2,9 @@
 
 @section('input')
     <div class="input-group date">
-        <input class="form-control" data-format="yyyy-MM-dd" {{ $field->attributes(['class']) }} />
-        <span class="input-group-addon"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+        <input type="text" class="form-control" data-format="yyyy-MM-dd" {{ $field->attributes(['class', 'type']) }} />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar" data-time-icon="icon-time" data-date-icon="icon-calendar"></span>
+        </span>
     </div>
 @stop
