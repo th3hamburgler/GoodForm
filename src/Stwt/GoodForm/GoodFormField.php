@@ -231,7 +231,7 @@ class GoodFormField
      *
      * @return string  
      */
-    public function errors($format = '<span class="help-inline">:message</span>')
+    public function errors($format = '<span class="help-block">:message</span>')
     {
         $string = '';
         foreach ($this->errors as $e) {

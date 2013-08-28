@@ -1,4 +1,4 @@
-<div class="form-group {{ $field->containerClass() }}">
+<div class="form-group {{ $field->containerClass() }} {{ $field->hasError() ? 'has-error' : '' }}">
     @section('label')
          <label class="control-label" for="{{$field->id}}">{{ $field->label }}</label>
     @show
