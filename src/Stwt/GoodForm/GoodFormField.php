@@ -12,6 +12,7 @@ class GoodFormField
     private $help   = [];
 
     public $id;
+    public $class;
     public $label;
     public $name;
     public $options = [];
