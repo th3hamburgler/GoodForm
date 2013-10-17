@@ -133,7 +133,6 @@ class GoodFormField
             'field' => $this,
         ];
 
-        Log::error("load {$this->name} view");
         $template = $this->template();
         if ($template) {
             return View::make($template, $data)->render();
