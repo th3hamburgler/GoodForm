@@ -79,6 +79,9 @@ class GoodFormField
         if ($this->form == 'image') {
             return $path.'image';
         }
+        if ($this->type == 'file') {
+            return $path.'file';
+        }
         if ($this->type == 'hidden') {
             return $path.'hidden';
         }
