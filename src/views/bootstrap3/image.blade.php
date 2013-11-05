@@ -4,7 +4,7 @@
     
         @if ($field->value)
         <div class="thumbnail">
-            <img src="{{ JitImage::source('/images/'.$field->value)->cropAndResize(1120, 50, 5); }}" height="50" width="1120" />
+            <img src="{{ URL::to('/images/admin_thumb'.$field->directory.$field->value) }}" height="50" width="1120" />
         </div>
         <br />
         <div class="input-group file-input-group">
