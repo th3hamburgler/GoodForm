@@ -20,6 +20,9 @@ class GoodFormField
     public $form;
     public $value;
     public $placeholder;
+    public $null = true;
+    public $multiple;
+    public $size;
 
     // numbers
     public $min;
@@ -197,6 +200,8 @@ class GoodFormField
             'placeholder',
             'rows',
             'type',
+            'multiple',
+            'size',
         ];
         $array = [];
         foreach ($attributes as $k) {
