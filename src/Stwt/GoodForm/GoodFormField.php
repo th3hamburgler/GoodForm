@@ -23,6 +23,7 @@ class GoodFormField
     public $null = true;
     public $multiple;
     public $size;
+    public $model;
 
     // numbers
     public $min;
