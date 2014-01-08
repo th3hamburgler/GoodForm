@@ -65,8 +65,10 @@ class GoodFormField
     {
         if (Input::old($this->name)) {
             return Input::old($this->name);
-        } else {
+        } elseif ($this->value) {
             return $this->value;
+        } else {
+            return $this->default;
         }
     }
 
