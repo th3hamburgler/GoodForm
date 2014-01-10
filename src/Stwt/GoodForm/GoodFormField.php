@@ -24,7 +24,8 @@ class GoodFormField
     public $multiple;
     public $size;
     public $model;
-
+    public $default;
+    
     // numbers
     public $min;
     public $max;
